@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Rekapitulasi & Analisis Mahasiswa</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Fonts Configuration -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 antialiased p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto space-y-8">
+        
+        <!-- HEADER SECTION -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 md:p-8 flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+            <div>
+                <span class="text-xs font-bold tracking-widest text-emerald-600 uppercase">Mahasiswa</span>
+                <h1 class="text-2xl md:text-3xl font-bold font-heading text-emerald-800 mt-1">Rekapitulasi Mahasiswa per Angkatan</h1>
+                <p class="text-sm text-slate-500 mt-1">Program Studi Psikologi Islam • Tren Kemajuan, Kelulusan, dan Status Akademik</p>
+            </div>
+            <div class="text-xs text-slate-400 font-medium bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-xl self-start md:self-center">
+                📅 Pembaruan Data Terakhir: <span class="font-semibold text-slate-700">TS (2024/2025)</span>
+            </div>
+        </div>
+
+        <!-- METRIC CARDS OVERVIEW -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+                <span class="text-xs text-slate-400 font-medium uppercase tracking-wider block">Total Diterima</span>
+                <span class="text-2xl md:text-3xl font-bold font-heading text-slate-800 block mt-1">416</span>
+                <span class="text-xs text-slate-500 mt-1 block">Dari 6 Angkatan Terakhir</span>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+                <span class="text-xs text-emerald-600 font-medium uppercase tracking-wider block">Total Lulusan</span>
+                <span class="text-2xl md:text-3xl font-bold font-heading text-emerald-700 block mt-1">124</span>
+                <span class="text-xs text-emerald-600 font-medium mt-1 inline-flex items-center gap-0.5 bg-emerald-50 px-1.5 py-0.5 rounded">
+                    🎓 29.8% Kelulusan Kumulatif
+                </span>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+                <span class="text-xs text-blue-600 font-medium uppercase tracking-wider block">Mahasiswa Aktif</span>
+                <span class="text-2xl md:text-3xl font-bold font-heading text-blue-700 block mt-1">265</span>
+                <span class="text-xs text-blue-600 font-medium mt-1 inline-flex items-center gap-0.5 bg-blue-50 px-1.5 py-0.5 rounded">
+                    ⚡ 63.7% Masa Studi
+                </span>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+                <span class="text-xs text-amber-700 font-medium uppercase tracking-wider block">Tidak Terdata / Keluar</span>
+                <span class="text-2xl md:text-3xl font-bold font-heading text-amber-800 block mt-1">27</span>
+                <span class="text-xs text-amber-700 font-medium mt-1 inline-flex items-center gap-0.5 bg-amber-50 px-1.5 py-0.5 rounded">
+                    ⚠️ 6.5% Pindah / DropOut
+                </span>
+            </div>
+        </div>
+
+        <!-- VISUALIZATION GRAPHICS -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Main Chart: Stacked Bar Chart for Trends -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 lg:col-span-2 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-base font-bold font-heading text-slate-800">Tren Status Mahasiswa per Tahun Masuk</h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Komparasi jumlah mahasiswa diterima, lulus, dan status aktif saat ini.</p>
+                </div>
+                <div class="mt-4 h-64 md:h-72 relative">
+                    <canvas id="studentTrendsChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Side Chart: Pie Chart for Cumulative Composition -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-base font-bold font-heading text-slate-800">Komposisi Makro Mahasiswa</h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Distribusi persentase dari total seluruh 416 mahasiswa.</p>
+                </div>
+                <div class="mt-4 h-56 md:h-60 relative flex justify-center items-center">
+                    <canvas id="studentCompositionChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- INTERACTIVE DATATABLE SECTION -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+            <div class="mb-4">
+                <h3 class="text-base font-bold font-heading text-slate-800">Tabel Rincian Angkatan (Lengkap)</h3>
+                <p class="text-xs text-slate-400 mt-0.5">Data terstruktur komparatif berbasis instrumen borang akreditasi.</p>
+            </div>
+            
+            <div class="overflow-x-auto border border-slate-100 rounded-xl">
+                <table class="w-full text-left border-collapse text-xs md:text-sm">
+                    <thead>
+                        <tr class="bg-slate-50 text-slate-600 font-heading font-semibold border-b border-slate-200">
+                            <th class="p-3">Tahun Masuk</th>
+                            <th class="p-3 text-center">Jumlah Diterima</th>
+                            <th class="p-3 text-center text-emerald-800 bg-emerald-50/40">Jumlah Lulusan</th>
+                            <th class="p-3 text-center text-blue-800 bg-blue-50/30">Jumlah Aktif</th>
+                            <th class="p-3 text-center text-amber-800">Tidak Terdata / Pindah</th>
+                            <th class="p-3 text-center font-bold text-slate-800 bg-slate-100/50">% Lulusan</th>
+                            <th class="p-3">Keterangan Catatan</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 text-slate-700">
+                        <tr class="hover:bg-slate-50/50 transition-colors">
+                            <td class="p-3 font-semibold text-slate-800">2019/2020</td>
+                            <td class="p-3 text-center font-medium">50</td>
+                            <td class="p-3 text-center bg-emerald-50/20 font-semibold text-emerald-700">34</td>
+                            <td class="p-3 text-center bg-blue-50/10 text-blue-600">9</td>
+                            <td class="p-3 text-center text-slate-400">7</td>
+                            <td class="p-3 text-center bg-slate-100/30 font-bold text-emerald-800">68.0%</td>
+                            <td class="p-3 text-xs text-slate-500 italic">Angkatan pertama</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/50 transition-colors">
+                            <td class="p-3 font-semibold text-slate-800">2020/2021</td>
+                            <td class="p-3 text-center font-medium">58</td>
+                            <td class="p-3 text-center bg-emerald-50/20 font-semibold text-emerald-700">41</td>
+                            <td class="p-3 text-center bg-blue-50/10 text-blue-600">10</td>
+                            <td class="p-3 text-center text-slate-400">7</td>
+                            <td class="p-3 text-center bg-slate-100/30 font-bold text-emerald-800">70.7%</td>
+                            <td class="p-3 text-xs text-emerald-700 font-medium">Peningkatan lulusan 📈</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/50 transition-colors">
+                            <td class="p-3 font-semibold text-slate-800">2021/2022</td>
+                            <td class="p-3 text-center font-medium">88</td>
+                            <td class="p-3 text-center bg-emerald-50/20 font-semibold text-emerald-700">47</td>
+                            <td class="p-3 text-center bg-blue-50/10 text-blue-600">41</td>
+                            <td class="p-3 text-center text-slate-400">0</td>
+                            <td class="p-3 text-center bg-slate-100/30 font-bold text-slate-700">53.4%</td>
+                            <td class="p-3 text-xs text-slate-500 italic">Masih banyak aktif</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/50 transition-colors">
+                            <td class="p-3 font-semibold text-slate-800">2022/2023</td>
+                            <td class="p-3 text-center font-medium">93</td>
+                            <td class="p-3 text-center bg-emerald-50/20 text-emerald-700">2</td>
+                            <td class="p-3 text-center bg-blue-50/10 text-blue-600 font-semibold">91</td>
+                            <td class="p-3 text-center text-slate-400">0</td>
+                            <td class="p-3 text-center bg-slate-100/30 font-bold text-slate-400">2.1%</td>
+                            <td class="p-3 text-xs text-blue-600 font-medium bg-blue-50/30">Masih dalam masa studi</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/50 transition-colors">
+                            <td class="p-3 font-semibold text-slate-800">2023/2024</td>
+                            <td class="p-3 text-center font-medium">88</td>
+                            <td class="p-3 text-center bg-emerald-50/20 text-slate-300">0</td>
+                            <td class="p-3 text-center bg-blue-50/10 text-blue-600 font-semibold">75</td>
+                            <td class="p-3 text-center text-amber-600 font-medium">13</td>
+                            <td class="p-3 text-center bg-slate-100/30 font-bold text-slate-400">0%</td>
+                            <td class="p-3 text-xs text-blue-600 font-medium bg-blue-50/30">Masih dalam masa studi</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/50 transition-colors">
+                            <td class="p-3 font-semibold text-slate-800">2024/2025</td>
+                            <td class="p-3 text-center font-medium">39</td>
+                            <td class="p-3 text-center bg-emerald-50/20 text-slate-300">0</td>
+                            <td class="p-3 text-center bg-blue-50/10 text-blue-600 font-semibold">39</td>
+                            <td class="p-3 text-center text-slate-400">0</td>
+                            <td class="p-3 text-center bg-slate-100/30 font-bold text-slate-400">0%</td>
+                            <td class="p-3 text-xs text-purple-700 font-medium bg-purple-50">Angkatan terbaru ✨</td>
+                        </tr>
+                        <!-- TOTAL SUMMARY ROW -->
+                        <tr class="bg-slate-100/80 font-bold text-slate-900 border-t-2 border-slate-300">
+                            <td class="p-3">Total / Rata-rata</td>
+                            <td class="p-3 text-center">416</td>
+                            <td class="p-3 text-center text-emerald-800 bg-emerald-100/50">124</td>
+                            <td class="p-3 text-center text-blue-800 bg-blue-100/40">265</td>
+                            <td class="p-3 text-center text-amber-900">27</td>
+                            <td class="p-3 text-center bg-slate-200 text-emerald-950 font-extrabold">29.8%</td>
+                            <td class="p-3 text-xs text-slate-500 font-normal">Rekap Akumulatif Makro</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- INSIGHT & NARRATIVE SECTION -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 md:p-8 space-y-6">
+            <div class="border-b border-slate-100 pb-3">
+                <h2 class="text-lg font-bold font-heading text-emerald-900 flex items-center gap-2">
+                    <span>📝</span> Narasi Analisis & Rekomendasi Asesmen
+                </h2>
+                <p class="text-xs text-slate-400 mt-0.5">Teks narasi pelaporan siap pakai untuk dokumen LED SAPTO.</p>
+            </div>
+
+            <!-- Tabbed/Sectioned Blockquotes for dynamic scanning -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm leading-relaxed text-slate-600">
+                <div class="md:col-span-2 space-y-4 border-r border-slate-100 pr-0 md:pr-6">
+                    <p class="text-justify">
+                        Berdasarkan rekapitulasi data mahasiswa dari SIAKAD dan data penerimaan mahasiswa baru, prodi Psikologi Islam mencatat jumlah mahasiswa masuk per angkatan secara dinamis. Angkatan 2019/2020 berjumlah 50 mahasiswa, dengan 34 lulusan (68%) dan 9 mahasiswa aktif. Angkatan 2020/2021 berjumlah 58 mahasiswa, dengan 41 lulusan (70,7%) dan 10 mahasiswa aktif. Angkatan 2021/2022 berjumlah 88 mahasiswa, dengan 47 lulusan (53,4%) dan 41 mahasiswa aktif. Angkatan 2022/2023 berjumlah 93 mahasiswa, dengan 2 lulusan dan 91 mahasiswa aktif. Angkatan 2023/2024 berjumlah 88 mahasiswa, dengan 75 mahasiswa aktif dan belum ada lulusan. Angkatan 2024/2025 berjumlah 39 mahasiswa, seluruhnya aktif dan belum ada lulusan.
+                    </p>
+                    <p class="text-justify">
+                        Dari total 416 mahasiswa yang diterima dalam enam angkatan terakhir, tercatat 124 lulusan (29,8%), 265 mahasiswa aktif (63,7%), dan 27 mahasiswa tidak terdata (6,5%). Seluruh lulusan yang tercatat menyelesaikan studi dalam rentang 3,5–6 tahun, dengan rincian 34 lulusan dari angkatan 2019, 41 dari angkatan 2020, 47 dari angkatan 2021, dan 2 dari angkatan 2022. Tidak ada lulusan yang masa studinya melebihi batas toleransi 6 tahun.
+                    </p>
+                </div>
+                
+                <div class="bg-amber-50/60 p-5 rounded-2xl border border-amber-100/70 h-full flex flex-col justify-between">
+                    <div>
+                        <h4 class="font-bold text-amber-900 font-heading text-xs uppercase tracking-wider mb-2">📌 Catatan Evaluasi & Mutu Academic</h4>
+                        <p class="text-xs text-amber-900 text-justify">
+                            Rata-rata IPK mahasiswa angkatan 2024/2025 berkisar antara 3,21 – 4,00, menunjukkan performa akademik yang sangat baik. Sebagian kecil mahasiswa memiliki pemenuhan SKS yang lebih rendah dari standar ideal harian, sehingga program studi segera menginisiasi skema monitoring intensif serta pendampingan dosen penasihat akademik agar memitigasi risiko keterlambatan kelulusan studi.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-amber-200/50 text-[11px] text-amber-800 italic">
+                        Secara menyeluruh, data ini mencerminkan tingginya efektivitas proses pembelajaran serta kualitas bimbingan yang terstruktur secara berkala.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- GRAPHICS JAVASCRIPT LOGIC -->
+    <script>
+        // 1. Chart: Stacked Bar Chart for Student Trends
+        const trendCtx = document.getElementById('studentTrendsChart').getContext('2d');
+        new Chart(trendCtx, {
+            type: 'bar',
+            data: {
+                labels: ['2019/2020', '2020/2021', '2021/2022', '2022/2023', '2023/2024', '2024/2025'],
+                datasets: [
+                    {
+                        label: 'Lulusan',
+                        data: [34, 41, 47, 2, 0, 0],
+                        backgroundColor: '#047857', // Emerald 700
+                        borderRadius: 6
+                    },
+                    {
+                        label: 'Mahasiswa Aktif',
+                        data: [9, 10, 41, 91, 75, 39],
+                        backgroundColor: '#1d4ed8', // Blue 700
+                        borderRadius: 6
+                    },
+                    {
+                        label: 'Tidak Terdata / Pindah',
+                        data: [7, 7, 0, 0, 13, 0],
+                        backgroundColor: '#d97706', // Amber 600
+                        borderRadius: 6
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: { stacked: true, grid: { display: false } },
+                    y: { stacked: true, grid: { color: '#f1f5f9' } }
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { boxWidth: 12, font: { family: 'Inter', size: 11 } }
+                    }
+                }
+            }
+        });
+
+        // 2. Chart: Pie Chart for Cumulative Composition
+        const compCtx = document.getElementById('studentCompositionChart').getContext('2d');
+        new Chart(compCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Lulusan (29.8%)', 'Aktif (63.7%)', 'Tidak Terdata (6.5%)'],
+                datasets: [{
+                    data: [124, 265, 27],
+                    backgroundColor: ['#047857', '#1d4ed8', '#d97706'],
+                    borderWidth: 2,
+                    borderColor: '#ffffff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { boxWidth: 10, font: { family: 'Inter', size: 11 } }
+                    }
+                },
+                cutout: '65%'
+            }
+        });
+    </script>
+</body>
+</html>
