@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Prestasi Mahasiswa - Psikologi Islam</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 antialiased p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto space-y-8">
+        
+        <!-- HEADER SECTION -->
+        <div class="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 md:p-8 flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+            <div>
+                <span class="text-xs font-bold tracking-widest text-emerald-600 uppercase">Prestasi Mahasiswa (Tabel 1-I.12)</span>
+                <h1 class="text-2xl md:text-3xl font-bold font-heading text-emerald-800 mt-1">Rekapitulasi Prestasi Mahasiswa</h1>
+                <p class="text-sm text-slate-500 mt-1">Program Studi Psikologi Islam • Garis Waktu Rekam Jejak 3 Tahun Terakhir (TS-2 s.d TS)</p>
+            </div>
+            <div class="text-xs text-slate-400 font-medium bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-xl self-start md:self-center">
+                📊 Sinkronisasi Data: <span class="font-semibold text-slate-700">Terverifikasi Sesuai Bukti</span>
+            </div>
+        </div>
+
+        <!-- METRIC CARDS OVERVIEW -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+                <span class="text-xs text-slate-400 font-medium uppercase tracking-wider block">Total Capaian</span>
+                <span class="text-2xl md:text-3xl font-bold font-heading text-slate-800 block mt-1">13</span>
+                <span class="text-xs text-slate-500 mt-1 block">Prestasi Terdata (2022-2024)</span>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+                <span class="text-xs text-purple-600 font-medium uppercase tracking-wider block">Internasional</span>
+                <span class="text-2xl md:text-3xl font-bold font-heading text-purple-700 block mt-1">5</span>
+                <span class="text-xs text-purple-600 font-medium mt-1 inline-flex items-center gap-0.5 bg-purple-50 px-1.5 py-0.5 rounded">
+                    🌍 Kancah Global & Regional
+                </span>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+                <span class="text-xs text-blue-600 font-medium uppercase tracking-wider block">Nasional</span>
+                <span class="text-2xl md:text-3xl font-bold font-heading text-blue-700 block mt-1">4</span>
+                <span class="text-xs text-blue-600 font-medium mt-1 inline-flex items-center gap-0.5 bg-blue-50 px-1.5 py-0.5 rounded">
+                    🇮🇩 Konferensi & Debat Ilmiah
+                </span>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+                <span class="text-xs text-emerald-700 font-medium uppercase tracking-wider block">Provinsi / Kabupaten</span>
+                <span class="text-2xl md:text-3xl font-bold font-heading text-emerald-800 block mt-1">4</span>
+                <span class="text-xs text-emerald-700 font-medium mt-1 inline-flex items-center gap-0.5 bg-emerald-50 px-1.5 py-0.5 rounded">
+                    🕌 MTQH & Karya Tulis Fikih
+                </span>
+            </div>
+        </div>
+
+        <!-- VISUALIZATION GRAPHICS -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Chart: Column Distribution by Levels -->
+            <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 lg:col-span-2 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-base font-bold font-heading text-slate-800">Distribusi Level Kompetisi (2022–2024)</h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Representasi sebaran tingkat wilayah dari 13 total capaian luaran mahasiswa.</p>
+                </div>
+                <div class="mt-4 h-64 md:h-72 relative">
+                    <canvas id="achievementLevelChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Chart: Donut Chart for Categories -->
+            <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-base font-bold font-heading text-slate-800">Klaster Rumpun Prestasi</h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Dominasi sebaran potensi minat bakat mahasiswa prodi.</p>
+                </div>
+                <div class="mt-4 h-56 md:h-60 relative flex justify-center items-center">
+                    <canvas id="achievementClusterChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- DATATABLE SECTION -->
+        <div class="bg-white rounded-3xl shadow-sm border border-slate-100/80 p-6 md:p-8">
+            <div class="mb-6 flex flex-col md:flex-row md:justify-between md:items-center gap-4 border-b border-slate-50 pb-5">
+                <div>
+                    <h3 class="text-lg font-bold font-heading text-slate-800 tracking-tight">Tabel 1-I.12 Prestasi Mahasiswa (TS-2 sd TS)</h3>
+                    <p class="text-xs text-slate-400 mt-1">Data dugung validasi yang merujuk berkas resmi borang akreditasi program studi.</p>
+                </div>
+                
+                <!-- TOMBOL BUKTI KOLEKTIF -->
+                <a href="https://drive.google.com/drive/folders/SALIN_LINK_FOLDER_UTAMA_DISINI" 
+                   target="_blank" 
+                   class="relative inline-flex items-center gap-3 px-6 py-3.5 rounded-2xl text-xs font-bold tracking-wide uppercase bg-emerald-600 text-white hover:bg-emerald-700 active:scale-95 transition-all shadow-md shadow-emerald-200 self-start md:self-auto group overflow-hidden">
+                    
+                    <span class="absolute inset-0 w-full h-full bg-emerald-500 rounded-2xl animate-ping opacity-10 group-hover:opacity-20 transition-opacity"></span>
+                    
+                    <span class="text-base animate-bounce">📂</span> 
+                    <span>Buka Folder Bukti Kolektif (Drive)</span> 
+                    <span class="transform group-hover:translate-x-1 transition-transform text-sm">↗️</span>
+                </a>
+            </div>
+            
+            <div class="overflow-x-auto rounded-2xl border border-slate-100 bg-slate-50/40">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                        <tr class="bg-slate-50 text-slate-500 font-heading font-medium text-xs border-b border-slate-150 tracking-wider uppercase">
+                            <th class="py-4 px-4 text-center w-12">No</th>
+                            <th class="py-4 px-5 max-w-sm">Nama Kegiatan Kompetisi / Forum Resmi</th>
+                            <th class="py-4 px-3 text-center">Waktu</th>
+                            <th class="py-4 px-4 text-center">Tingkat Wilayah</th>
+                            <th class="py-4 px-5">Prestasi yang Dicapai (A.n. Mahasiswa)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 bg-white text-slate-600 font-medium">
+                        <!-- row 1 -->
+                        <tr class="hover:bg-slate-50/60 transition-colors">
+                            <td class="py-4 px-4 text-center text-slate-400 text-xs">1</td>
+                            <td class="py-4 px-5 text-slate-800 font-semibold max-w-sm">Musabaqah Tilawatil Qur'an dan Hadits XIII Tingkat Provinsi Kepulauan Bangka Belitung Tahun 2024</td>
+                            <td class="py-4 px-3 text-center text-slate-500">2024</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700">Provinsi</span>
+                            </td>
+                            <td class="py-4 px-5 text-xs text-slate-700">Juara II Qira'at Al-Qur'an Murattal Remaja Putri <span class="font-bold text-emerald-800">(a.n. Hasya Nadhira)</span></td>
+                        </tr>
+                        <!-- row 2 -->
+                        <tr class="hover:bg-slate-50/60 transition-colors">
+                            <td class="py-4 px-4 text-center text-slate-400 text-xs">2</td>
+                            <td class="py-4 px-5 text-slate-800 font-semibold max-w-sm">Konferensi Online Peneliti Muda Psikologi Ke-7</td>
+                            <td class="py-4 px-3 text-center text-slate-500">2023</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700">Nasional</span>
+                            </td>
+                            <td class="py-4 px-5 text-xs text-slate-700">Best Presenter / Presenter Terbaik <span class="font-bold text-blue-800">(a.n. Demisa Nurhasanah)</span></td>
+                        </tr>
+                        <!-- row 3 -->
+                        <tr class="hover:bg-slate-50/60 transition-colors">
+                            <td class="py-4 px-4 text-center text-slate-400 text-xs">3</td>
+                            <td class="py-4 px-5 text-slate-800 font-semibold max-w-sm">The 6th International Seminar on Psychology: "Religiosity and Cultural Diversity for Strengthening Mental Well-Being"</td>
+                            <td class="py-4 px-3 text-center text-slate-500">2023</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-purple-50 text-purple-700">Internasional</span>
+                            </td>
+                            <td class="py-4 px-5 text-xs text-slate-700">Juara III Poster Terbaik / The Third Place of Best Poster <span class="font-bold text-purple-800">(a.n. Shilpa Shetty Tri Syafitri)</span></td>
+                        </tr>
+                        <!-- row 4 -->
+                        <tr class="hover:bg-slate-50/60 transition-colors">
+                            <td class="py-4 px-4 text-center text-slate-400 text-xs">4</td>
+                            <td class="py-4 px-5 text-slate-800 font-semibold max-w-sm">Konferensi Nasional Ke-8 Peneliti Muda Psikologi Indonesia 2024</td>
+                            <td class="py-4 px-3 text-center text-slate-500">2024</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700">Nasional</span>
+                            </td>
+                            <td class="py-4 px-5 text-xs text-slate-700">Presenter Riset Mahasiswa: "Pengaruh Konsep Diri & Efikasi Diri Terhadap Kematangan Karier SMKN 1 Mendo Barat" <span class="font-bold text-blue-800">(a.n. Mutiara Andini)</span></td>
+                        </tr>
+                        <!-- row 5 -->
+                        <tr class="hover:bg-slate-50/60 transition-colors">
+                            <td class="py-4 px-4 text-center text-slate-400 text-xs">5</td>
+                            <td class="py-4 px-5 text-slate-800 font-semibold max-w-sm">Lomba Debat Ilmiah Timah DIKSI Nasional</td>
+                            <td class="py-4 px-3 text-center text-slate-500">2022</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700">Nasional</span>
+                            </td>
+                            <td class="py-4 px-5 text-xs text-slate-700">Juara Best Speaker <span class="font-bold text-blue-800">(a.n. Mutiara Andini)</span></td>
+                        </tr>
+                        <!-- row 6 -->
+                        <tr class="hover:bg-slate-50/60 transition-colors">
+                            <td class="py-4 px-4 text-center text-slate-400 text-xs">6</td>
+                            <td class="py-4 px-5 text-slate-800 font-semibold max-w-sm">The 5th International Seminar on Psychology Universitas Muhammadiyah Purwokerto, Indonesia</td>
+                            <td class="py-4 px-3 text-center text-slate-500">2022</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-purple-50 text-purple-700">Internasional</span>
+                            </td>
+                            <td class="py-4 px-5 text-xs text-slate-700">Presenter Artikel Ilmiah Internasional</td>
+                        </tr>
+                        <!-- row 7 -->
+                        <tr class="hover:bg-slate-50/60 transition-colors">
+                            <td class="py-4 px-4 text-center text-slate-400 text-xs">7</td>
+                            <td class="py-4 px-5 text-slate-800 font-semibold max-w-sm">Pekan Kreativitas Mahasiswa (PKM) III Perguruan Tinggi Keagamaan Negeri (PTKIN) di Indonesia dan Perguruan Tinggi Islam se-Asia Tenggara</td>
+                            <td class="py-4 px-3 text-center text-slate-500">2023</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-purple-50 text-purple-700">Internasional</span>
+                            </td>
+                            <td class="py-4 px-5 text-xs text-slate-700">Peraih Medali Emas Cabang Musabaqah Karya Tulis Al-Qur'an Putri <span class="font-bold text-purple-800">(a.n. Mutiara Andini)</span></td>
+                        </tr>
+                        <!-- row 8 -->
+                        <tr class="hover:bg-slate-50/60 transition-colors">
+                            <td class="py-4 px-4 text-center text-slate-400 text-xs">8</td>
+                            <td class="py-4 px-5 text-slate-800 font-semibold max-w-sm">The 6th International Seminar on Psychology Universitas Muhammadiyah Purwokerto, Indonesia</td>
+                            <td class="py-4 px-3 text-center text-slate-500">2023</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-purple-50 text-purple-700">Internasional</span>
+                            </td>
+                            <td class="py-4 px-5 text-xs text-slate-700">3rd Place the Best Poster Award</td>
+                        </tr>
+                        <!-- row 9 -->
+                        <tr class="hover:bg-slate-50/60 transition-colors">
+                            <td class="py-4 px-4 text-center text-slate-400 text-xs">9</td>
+                            <td class="py-4 px-5 text-slate-800 font-semibold max-w-sm">Konferensi Nasional ke-8 Universitas Muhammadiyah Prof. Dr. Hamka</td>
+                            <td class="py-4 px-3 text-center text-slate-500">2024</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700">Nasional</span>
+                            </td>
+                            <td class="py-4 px-5 text-xs text-slate-700">Peneliti Muda Terbaik <span class="font-bold text-blue-800">(a.n. Mutiara Andini)</span></td>
+                        </tr>
+                        <!-- row 10 -->
+                        <tr class="hover:bg-slate-50/60 transition-colors">
+                            <td class="py-4 px-4 text-center text-slate-400 text-xs">10</td>
+                            <td class="py-4 px-5 text-slate-800 font-semibold max-w-sm">Musabaqah Tilawatil Qur'an dan Hadits XII Tingkat Provinsi Kepulauan Bangka Belitung Tahun 2023</td>
+                            <td class="py-4 px-3 text-center text-slate-500">2023</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700">Provinsi</span>
+                            </td>
+                            <td class="py-4 px-5 text-xs text-slate-700">Juara II Cabang Tafsir Al qur'an Golongan Bahasa Inggris Putri</td>
+                        </tr>
+                        <!-- row 11 -->
+                        <tr class="hover:bg-slate-50/60 transition-colors">
+                            <td class="py-4 px-4 text-center text-slate-400 text-xs">11</td>
+                            <td class="py-4 px-5 text-slate-800 font-semibold max-w-sm">Musabaqah Tilawatil Qur'an dan Hadits Nabi (MTQH) ke-XIII Tingkat Kabupaten Bangka Tengah Tahun 2024</td>
+                            <td class="py-4 px-3 text-center text-slate-500">2024</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-stone-100 text-stone-700">Kabupaten</span>
+                            </td>
+                            <td class="py-4 px-5 text-xs text-slate-700">Juara 1 Tafsir Al qur'an Berbahasa Inggris Putri</td>
+                        </tr>
+                        <!-- row 12 -->
+                        <tr class="hover:bg-slate-50/60 transition-colors">
+                            <td class="py-4 px-4 text-center text-slate-400 text-xs">12</td>
+                            <td class="py-4 px-5 text-slate-800 font-semibold max-w-sm">Musabaqah Tilawatil Qur'an dan Hadits XIII Tingkat Provinsi Kepulauan Bangka Belitung Tahun 2024</td>
+                            <td class="py-4 px-3 text-center text-slate-500">2024</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700">Provinsi</span>
+                            </td>
+                            <td class="py-4 px-5 text-xs text-slate-700">Juara I Cabang Tafsir Al qur'an Bahasa Inggris</td>
+                        </tr>
+                        <!-- row 13 -->
+                        <tr class="hover:bg-slate-50/60 transition-colors">
+                            <td class="py-4 px-4 text-center text-slate-400 text-xs">13</td>
+                            <td class="py-4 px-5 text-slate-800 font-semibold max-w-sm">Pekan Kreativitas Mahasiswa (PKM) III Perguruan Tinggi Keagamaan Negeri (PTKIN) di Indonesia dan Perguruan Tinggi Islam se-Asia Tenggara</td>
+                            <td class="py-4 px-3 text-center text-slate-500">2023</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-purple-50 text-purple-700">Internasional</span>
+                            </td>
+                            <td class="py-4 px-5 text-xs text-slate-700">Peraih Medali Perak Cabang Karate Kategori Tunggal Putra</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ANALYSIS SECTION (FROM list prestasi mahasiswa_2.docx) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Left Narrative -->
+            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-100 md:col-span-2 space-y-6">
+                <div>
+                    <h2 class="text-xl font-bold font-heading text-slate-800 tracking-tight">Analisis Capaian Prestasi</h2>
+                    <p class="text-xs text-slate-400 mt-1">Evaluasi kualitatif komparatif berbasis dokumen bukti penjaminan mutu akreditasi.</p>
+                </div>
+                
+                <p class="text-sm text-slate-600 leading-relaxed">
+                    Kami telah mengidentifikasi dan mendokumentasikan prestasi mahasiswa Prodi Psikologi Islam selama tiga tahun terakhir (2022–2024). Data ini kami himpun dari sertifikat kompetisi, piagam penghargaan, dan dokumen pendukung lainnya yang telah diverifikasi. Secara keseluruhan, kami mencatat 13 capaian prestasi yang terdiri dari berbagai jenis kegiatan, mulai dari kompetisi keagamaan, seminar ilmiah internasional, hingga konferensi nasional dan ajang kreativitas mahasiswa.
+                </p>
+
+                <div class="space-y-4">
+                    <h3 class="text-sm font-bold font-heading text-emerald-800 uppercase tracking-wider">Kekuatan dari Sisi Prestasi Mahasiswa:</h3>
+                    
+                    <div class="flex gap-4 items-start">
+                        <div class="p-2 rounded-xl bg-purple-50 text-purple-600 text-sm font-semibold mt-0.5">01</div>
+                        <div>
+                            <h4 class="text-sm font-semibold text-slate-800">Daya Saing Tingkat Internasional</h4>
+                            <p class="text-xs text-slate-500 mt-1 leading-relaxed">Mahasiswa kami menunjukkan kemampuan bersaing di tingkat internasional. Tercatat tiga prestasi internasional, yaitu pada The 6th International Seminar on Psychology di Universitas Muhammadiyah Purwokerto (Juara III Best Poster atas nama Shilpa Shetty Tri Syafitri), The 5th International Seminar on Psychology 2022 sebagai Presenter, serta PKM III PTKIN se-Asia Tenggara 2023 (Medali Emas atas nama Mutiara Andini dan Medali Perak atas nama mahasiswa lainnya). Capaian ini menunjukkan bahwa mahasiswa prodi mampu mengukir prestasi di kancah global dan bersaing dengan peserta dari berbagai negara.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4 items-start">
+                        <div class="p-2 rounded-xl bg-blue-50 text-blue-600 text-sm font-semibold mt-0.5">02</div>
+                        <div>
+                            <h4 class="text-sm font-semibold text-slate-800">Keunggulan Mutu Riset Nasional</h4>
+                            <p class="text-xs text-slate-500 mt-1 leading-relaxed">Mahasiswa kami juga berprestasi di tingkat nasional. Pada Konferensi Nasional Peneliti Muda Psikologi Indonesia ke-8 tahun 2024, mahasiswa prodi berperan aktif sebagai presenter riset, dengan Mutiara Andini meraih predikat Peneliti Muda Terbaik. Pada Lomba Debat Ilmiah Timah DIKSI Nasional 2022, Mutiara Andini juga meraih predikat Best Speaker. Selain itu, pada Konferensi Online Peneliti Muda Psikologi ke-7 tahun 2023, mahasiswa atas nama Demisa Nurhasanah meraih predikat Presenter Terbaik. Capaian ini mencerminkan kualitas bimbingan akademik dan budaya riset yang telah kami bangun di prodi.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4 items-start">
+                        <div class="p-2 rounded-xl bg-emerald-50 text-emerald-600 text-sm font-semibold mt-0.5">03</div>
+                        <div>
+                            <h4 class="text-sm font-semibold text-slate-800">Integrasi Keagamaan (Khas Prodi)</h4>
+                            <p class="text-xs text-slate-500 mt-1 leading-relaxed">Prestasi di bidang keagamaan juga menjadi kebanggaan prodi. Pada MTQH XIII Tingkat Provinsi Kepulauan Bangka Belitung tahun 2024, Hasya Nadhira meraih Juara II Qira'at Al-Qur'an Murattal Remaja Putri, sementara pada ajang yang sama, mahasiswa lain meraih Juara I Cabang Tafsir Al-Qur'an Bahasa Inggris. Pada MTQH XII Tingkat Provinsi tahun 2023, mahasiswa prodi juga meraih Juara II Cabang Tafsir Al-Qur'an Golongan Bahasa Inggris Putri. Bahkan pada tingkat kabupaten, mahasiswa prodi meraih Juara I Tafsir Al-Qur'an Berbahasa Inggris Putri. Hal ini menunjukkan bahwa prodi tidak hanya unggul di bidang akademik, tetapi juga mendukung pengembangan potensi mahasiswa di bidang keagamaan.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4 items-start">
+                        <div class="p-2 rounded-xl bg-amber-50 text-amber-600 text-sm font-semibold mt-0.5">04</div>
+                        <div>
+                            <h4 class="text-sm font-semibold text-slate-800">Budaya Prestasi Kolektif</h4>
+                            <p class="text-xs text-slate-500 mt-1 leading-relaxed">Partisipasi mahasiswa dalam berbagai ajang kompetisi dan konferensi menunjukkan bahwa budaya prestasi telah tertanam dengan baik di prodi. Mahasiswa tidak hanya berprestasi secara individual, tetapi juga aktif dalam forum-forum ilmiah dan kompetisi yang memperluas wawasan serta jejaring akademik mereka. Keberhasilan meraih medali emas dan perak pada ajang internasional (PKM III PTKIN se-Asia Tenggara) semakin menegaskan bahwa mahasiswa prodi memiliki daya saing yang tinggi.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right RTL Plan -->
+            <div class="bg-gradient-to-b from-emerald-800 to-emerald-950 p-6 md:p-8 rounded-3xl text-white shadow-xl shadow-emerald-900/10 flex flex-col justify-between">
+                <div class="space-y-6">
+                    <div>
+                        <span class="text-[10px] font-bold tracking-widest text-emerald-300 uppercase">Sustainable Action</span>
+                        <h3 class="text-lg font-bold font-heading text-white mt-0.5">Rencana Tindak Lanjut (RTL)</h3>
+                        <p class="text-xs text-emerald-200/60 mt-1">Langkah strategis berkelanjutan prodi mempertahankan capaian luaran.</p>
+                    </div>
+
+                    <div class="space-y-4 text-xs text-emerald-100/90 leading-relaxed">
+                        <div class="bg-emerald-700/30 p-4 rounded-xl border border-emerald-600/20">
+                            ✨ Kami akan terus mendorong dan memfasilitasi mahasiswa untuk berpartisipasi dalam kompetisi dan konferensi ilmiah, baik di tingkat nasional maupun internasional.
+                        </div>
+                        <div class="bg-emerald-700/30 p-4 rounded-xl border border-emerald-600/20">
+                            📈 Kami juga akan memperkuat program pembinaan riset dan publikasi mahasiswa, serta menjalin kerja sama dengan berbagai perguruan tinggi dan lembaga untuk membuka lebih banyak peluang prestasi bagi mahasiswa.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-6 border-t border-emerald-700/40 mt-6 md:mt-0">
+                    <p class="text-[11px] text-emerald-300/80 italic">
+                        "Seluruh bukti fisik otentik  portofolio prestasi mahasiswa dapat diakses secara transparan via tautan resmi pada tabel LKPS dan tautan di halaman ini."
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SCRIPT CONFIGURATION FOR CHARTS -->
+    <script>
+        // 1. Chart Level Kompetisi (Bar Chart)
+        const ctxLevel = document.getElementById('achievementLevelChart').getContext('2d');
+        new Chart(ctxLevel, {
+            type: 'bar',
+            data: {
+                labels: ['Internasional', 'Nasional', 'Provinsi / Wilayah / Kabupaten'],
+                datasets: [{
+                    label: 'Jumlah Capaian',
+                    data: [5, 4, 4], // Data disesuaikan dari rincian berkas resmi
+                    backgroundColor: [
+                        'rgba(147, 51, 234, 0.85)', // Purple
+                        'rgba(59, 130, 246, 0.85)',  // Blue
+                        'rgba(16, 185, 129, 0.85)'   // Emerald
+                    ],
+                    borderRadius: 12,
+                    borderSkipped: false,
+                    barThickness: window.innerWidth > 768 ? 45 : 25
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { padding: 12, cornerRadius: 8 }
+                },
+                scales: {
+                    x: { grid: { display: false }, ticks: { font: { family: 'Inter', size: 11 } } },
+                    y: { 
+                        grid: { color: '#f1f5f9' }, 
+                        border: { dash: [5, 5] },
+                        ticks: { stepSize: 1, font: { family: 'Inter' } } 
+                    }
+                }
+            }
+        });
+
+        // 2. Chart Klaster Rumpun Prestasi (Donut Chart)
+        const ctxCluster = document.getElementById('achievementClusterChart').getContext('2d');
+        new Chart(ctxCluster, {
+            type: 'doughnut',
+            data: {
+                labels: ['Riset / Poster / Presenter', 'Keagamaan (MTQH / Tafsir)', 'Minat Bakat / Olahraga'],
+                datasets: [{
+                    data: [7, 5, 1], // Distribusi klaster dari berkas asli
+                    backgroundColor: [
+                        '#3b82f6', // Blue
+                        '#10b981', // Emerald
+                        '#f59e0b'  // Amber
+                    ],
+                    borderWidth: 4,
+                    borderColor: '#ffffff',
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            boxWidth: 12,
+                            padding: 15,
+                            font: { family: 'Inter', size: 11, weight: 500 }
+                        }
+                    },
+                    tooltip: { padding: 10 }
+                },
+                cutout: '70%'
+            }
+        });
+    </script>
+</body>
+</html>
