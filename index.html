@@ -1,8 +1,15 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Mahasiswa — Psikologi Islam</title>
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
@@ -18,80 +25,102 @@
             }
         }
     </script>
-</head>
-<body>
-    <!-- ===== NAVBAR GLOBAL ===== -->
-<nav style="background: #0f1b33; padding: 12px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; border-bottom: 3px solid #c9a84c; font-family: 'Inter', sans-serif; position: sticky; top: 0; z-index: 1000;">
-    
-    <!-- Logo / Brand -->
-    <a href="https://pi-iainbabel.github.io/psychosophia-hub/" style="display: flex; align-items: center; gap: 10px; color: #fff; font-weight: 700; font-size: 1.1rem; text-decoration: none;">
-        <span style="background: linear-gradient(135deg, #c9a84c, #e8d48b); padding: 4px 10px; border-radius: 8px; color: #0f1b33; font-weight: 800;">Ψ</span>
-        Psychosophia <span style="color: rgba(255,255,255,0.3); font-weight: 300;">·</span> Portal
-    </a>
 
-    <!-- Menu Navigasi -->
-    <div style="display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center;">
-        <a href="https://pi-iainbabel.github.io/psychosophia-hub/" style="color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.8rem; font-weight: 500; padding: 4px 12px; border-radius: 20px; transition: all 0.3s;"><i class="fas fa-home"></i> Beranda</a>
-        
-        <a href="https://pi-iainbabel.github.io/profil-dan-rekam-jejak-akademis-lulusan/" style="color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.8rem; font-weight: 500; padding: 4px 12px; border-radius: 20px; transition: all 0.3s;"><i class="fas fa-user-graduate"></i> Lulusan</a>
-        
-        <a href="https://pi-iainbabel.github.io/sdm/" style="color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.8rem; font-weight: 500; padding: 4px 12px; border-radius: 20px; transition: all 0.3s;"><i class="fas fa-users"></i> SDM</a>
-        
-        <a href="https://pi-iainbabel.github.io/mahasiswa/" style="color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.8rem; font-weight: 500; padding: 4px 12px; border-radius: 20px; transition: all 0.3s;"><i class="fas fa-user-graduate"></i> Mahasiswa</a>
-        
-        <a href="https://pi-iainbabel.github.io/spmi/" style="color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.8rem; font-weight: 500; padding: 4px 12px; border-radius: 20px; transition: all 0.3s;"><i class="fas fa-clipboard-check"></i> SPMI</a>
-        
-        <a href="https://pi-iainbabel.github.io/kurikulum/" style="color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.8rem; font-weight: 500; padding: 4px 12px; border-radius: 20px; transition: all 0.3s;"><i class="fas fa-book-open"></i> Kurikulum</a>
-        
-        <a href="https://pi-iainbabel.github.io/psychosophia-portfolio/" style="color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.8rem; font-weight: 500; padding: 4px 12px; border-radius: 20px; transition: all 0.3s;"><i class="fas fa-microchip"></i> Digital Lab</a>
-        <a href="https://pi-iainbabel.github.io/sdm/" style="color: #fff; background: rgba(201,168,76,0.25); text-decoration: none; font-size: 0.8rem; font-weight: 500; padding: 4px 12px; border-radius: 20px;"><i class="fas fa-users"></i> Mahasiswa </a>
-    </div>
-</nav>
-
-<!-- FontAwesome Icons (jika belum ada) -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-</body>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Rekapitulasi & Analisis Mahasiswa</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Fonts Configuration -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        heading: ['Poppins', 'sans-serif'],
-                    }
-                }
-            }
+    <style>
+        /* Tombol Prestasi dengan efek glow */
+        .btn-prestasi {
+            background: linear-gradient(135deg, #c9a84c, #e8d48b);
+            color: #0f1b33;
+            font-weight: 700;
+            padding: 14px 32px;
+            border-radius: 60px;
+            box-shadow: 0 8px 30px rgba(201, 168, 76, 0.35), 0 0 60px rgba(201, 168, 76, 0.08);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
         }
-    </script>
+        .btn-prestasi:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 14px 40px rgba(201, 168, 76, 0.45), 0 0 80px rgba(201, 168, 76, 0.12);
+        }
+        .btn-prestasi i {
+            font-size: 1.2rem;
+        }
+
+        /* Tombol Kembali ke Home */
+        .btn-home {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-home:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+    </style>
 </head>
 <body class="bg-slate-50 font-sans text-slate-800 antialiased p-4 md:p-8">
 
-    <div class="max-w-7xl mx-auto space-y-8">
- <a href="prestasi-mahasiswa.html" class="bg-emerald-600 text-white px-4 py-2 rounded-lg">
-    Lihat Prestasi Mahasiswa
-</a>       
-        <!-- HEADER SECTION -->
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 md:p-8 flex flex-col md:flex-row md:justify-between md:items-center gap-4">
-            <div>
-                <span class="text-xs font-bold tracking-widest text-emerald-600 uppercase">Mahasiswa</span>
-                <h1 class="text-2xl md:text-3xl font-bold font-heading text-emerald-800 mt-1">Rekapitulasi Mahasiswa per Angkatan</h1>
-                <p class="text-sm text-slate-500 mt-1">Program Studi Psikologi Islam • Tren Kemajuan, Kelulusan, dan Status Akademik</p>
+    <!-- ===== HEADER DENGAN TOMBOL HOME & PRESTASI ===== -->
+    <div class="max-w-7xl mx-auto mb-6">
+        <div class="bg-gradient-to-r from-navy-900 to-navy-950 rounded-2xl p-5 md:p-6 flex flex-wrap items-center justify-between gap-4 border border-navy-700/40 shadow-xl">
+            <!-- Kiri: Logo & Judul -->
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-gold to-amber-600 flex items-center justify-center text-navy-900 font-bold text-lg shadow-lg shadow-gold/20">
+                    Ψ
+                </div>
+                <div>
+                    <h1 class="text-white font-bold font-heading text-lg md:text-xl">Mahasiswa</h1>
+                    <p class="text-[10px] text-white/40 font-medium">Program Studi Psikologi Islam</p>
+                </div>
             </div>
-            <div class="text-xs text-slate-400 font-medium bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-xl self-start md:self-center">
-                📅 Pembaruan Data Terakhir: <span class="font-semibold text-slate-700">TS (2024/2025)</span>
+
+            <!-- Kanan: Tombol Prestasi (SALIENCE) + Home -->
+            <div class="flex flex-wrap items-center gap-3">
+                <!-- TOMBOL PRESTASI — BESAR & MENCUAT -->
+                <a href="prestasi-mahasiswa.html" class="btn-prestasi">
+                    <i class="fas fa-trophy"></i> Lihat Prestasi Mahasiswa
+                    <i class="fas fa-arrow-right text-xs opacity-70"></i>
+                </a>
+
+                <!-- TOMBOL KEMBALI KE HOME -->
+                <a href="https://pi-iainbabel.github.io/psychosophia-hub/" class="btn-home">
+                    <i class="fas fa-home"></i> Kembali
+                </a>
             </div>
         </div>
 
-        <!-- METRIC CARDS OVERVIEW -->
+        <!-- Sub-header kecil -->
+        <div class="mt-3 flex flex-wrap justify-between items-center gap-2 text-xs text-slate-500">
+            <span class="bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm">
+                📅 Pembaruan Data: <span class="font-semibold text-slate-700">TS (2024/2025)</span>
+            </span>
+            <span class="bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm text-emerald-700 font-medium">
+                <i class="fas fa-users mr-1"></i> Total 416 Mahasiswa · 124 Lulusan
+            </span>
+        </div>
+    </div>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <div class="max-w-7xl mx-auto space-y-8">
+
+        <!-- METRIC CARDS -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
                 <span class="text-xs text-slate-400 font-medium uppercase tracking-wider block">Total Diterima</span>
@@ -121,24 +150,22 @@
             </div>
         </div>
 
-        <!-- VISUALIZATION GRAPHICS -->
+        <!-- CHARTS -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Main Chart: Stacked Bar Chart for Trends -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 lg:col-span-2 flex flex-col justify-between">
                 <div>
                     <h3 class="text-base font-bold font-heading text-slate-800">Tren Status Mahasiswa per Tahun Masuk</h3>
-                    <p class="text-xs text-slate-400 mt-0.5">Komparasi jumlah mahasiswa diterima, lulus, dan status aktif saat ini.</p>
+                    <p class="text-xs text-slate-400 mt-0.5">Komparasi jumlah mahasiswa diterima, lulus, dan status aktif.</p>
                 </div>
                 <div class="mt-4 h-64 md:h-72 relative">
                     <canvas id="studentTrendsChart"></canvas>
                 </div>
             </div>
 
-            <!-- Side Chart: Pie Chart for Cumulative Composition -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between">
                 <div>
                     <h3 class="text-base font-bold font-heading text-slate-800">Komposisi Makro Mahasiswa</h3>
-                    <p class="text-xs text-slate-400 mt-0.5">Distribusi persentase dari total seluruh 416 mahasiswa.</p>
+                    <p class="text-xs text-slate-400 mt-0.5">Distribusi persentase dari total 416 mahasiswa.</p>
                 </div>
                 <div class="mt-4 h-56 md:h-60 relative flex justify-center items-center">
                     <canvas id="studentCompositionChart"></canvas>
@@ -146,13 +173,13 @@
             </div>
         </div>
 
-        <!-- INTERACTIVE DATATABLE SECTION -->
+        <!-- TABLE -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
             <div class="mb-4">
-                <h3 class="text-base font-bold font-heading text-slate-800">Tabel Rincian Angkatan (Lengkap)</h3>
-                <p class="text-xs text-slate-400 mt-0.5">Data terstruktur komparatif berbasis instrumen borang akreditasi.</p>
+                <h3 class="text-base font-bold font-heading text-slate-800">Tabel Rincian Angkatan</h3>
+                <p class="text-xs text-slate-400 mt-0.5">Data terstruktur komparatif berbasis borang akreditasi.</p>
             </div>
-            
+
             <div class="overflow-x-auto border border-slate-100 rounded-xl">
                 <table class="w-full text-left border-collapse text-xs md:text-sm">
                     <thead>
@@ -163,7 +190,7 @@
                             <th class="p-3 text-center text-blue-800 bg-blue-50/30">Jumlah Aktif</th>
                             <th class="p-3 text-center text-amber-800">Tidak Terdata / Pindah</th>
                             <th class="p-3 text-center font-bold text-slate-800 bg-slate-100/50">% Lulusan</th>
-                            <th class="p-3">Keterangan Catatan</th>
+                            <th class="p-3">Keterangan</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 text-slate-700">
@@ -221,7 +248,6 @@
                             <td class="p-3 text-center bg-slate-100/30 font-bold text-slate-400">0%</td>
                             <td class="p-3 text-xs text-purple-700 font-medium bg-purple-50">Angkatan terbaru ✨</td>
                         </tr>
-                        <!-- TOTAL SUMMARY ROW -->
                         <tr class="bg-slate-100/80 font-bold text-slate-900 border-t-2 border-slate-300">
                             <td class="p-3">Total / Rata-rata</td>
                             <td class="p-3 text-center">416</td>
@@ -229,23 +255,22 @@
                             <td class="p-3 text-center text-blue-800 bg-blue-100/40">265</td>
                             <td class="p-3 text-center text-amber-900">27</td>
                             <td class="p-3 text-center bg-slate-200 text-emerald-950 font-extrabold">29.8%</td>
-                            <td class="p-3 text-xs text-slate-500 font-normal">Rekap Akumulatif Makro</td>
+                            <td class="p-3 text-xs text-slate-500 font-normal">Rekap Akumulatif</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <!-- INSIGHT & NARRATIVE SECTION -->
+        <!-- NARASI -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 md:p-8 space-y-6">
             <div class="border-b border-slate-100 pb-3">
                 <h2 class="text-lg font-bold font-heading text-emerald-900 flex items-center gap-2">
-                    <span>📝</span> Narasi Analisis & Rekomendasi Asesmen
+                    <span>📝</span> Narasi Analisis & Rekomendasi
                 </h2>
                 <p class="text-xs text-slate-400 mt-0.5">Analisis Naratif</p>
             </div>
 
-            <!-- Tabbed/Sectioned Blockquotes for dynamic scanning -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm leading-relaxed text-slate-600">
                 <div class="md:col-span-2 space-y-4 border-r border-slate-100 pr-0 md:pr-6">
                     <p class="text-justify">
@@ -255,16 +280,16 @@
                         Dari total 416 mahasiswa yang diterima dalam enam angkatan terakhir, tercatat 124 lulusan (29,8%), 265 mahasiswa aktif (63,7%), dan 27 mahasiswa tidak terdata (6,5%). Seluruh lulusan yang tercatat menyelesaikan studi dalam rentang 3,5–6 tahun, dengan rincian 34 lulusan dari angkatan 2019, 41 dari angkatan 2020, 47 dari angkatan 2021, dan 2 dari angkatan 2022. Tidak ada lulusan yang masa studinya melebihi batas toleransi 6 tahun.
                     </p>
                 </div>
-                
+
                 <div class="bg-amber-50/60 p-5 rounded-2xl border border-amber-100/70 h-full flex flex-col justify-between">
                     <div>
-                        <h4 class="font-bold text-amber-900 font-heading text-xs uppercase tracking-wider mb-2">📌 Catatan Evaluasi & Mutu Academic</h4>
+                        <h4 class="font-bold text-amber-900 font-heading text-xs uppercase tracking-wider mb-2">📌 Catatan Evaluasi</h4>
                         <p class="text-xs text-amber-900 text-justify">
-                            Rata-rata IPK mahasiswa angkatan 2024/2025 berkisar antara 3,21 – 4,00, menunjukkan performa akademik yang sangat baik. Sebagian kecil mahasiswa memiliki pemenuhan SKS yang lebih rendah dari standar ideal harian, sehingga program studi segera menginisiasi skema monitoring intensif serta pendampingan dosen penasihat akademik agar memitigasi risiko keterlambatan kelulusan studi.
+                            Rata-rata IPK mahasiswa angkatan 2024/2025 berkisar antara 3,21 – 4,00, menunjukkan performa akademik yang sangat baik. Sebagian kecil mahasiswa memiliki pemenuhan SKS yang lebih rendah dari standar ideal, sehingga program studi menginisiasi monitoring intensif serta pendampingan dosen PA.
                         </p>
                     </div>
                     <div class="mt-4 pt-4 border-t border-amber-200/50 text-[11px] text-amber-800 italic">
-                        Secara menyeluruh, data ini mencerminkan tingginya efektivitas proses pembelajaran serta kualitas bimbingan yang terstruktur secara berkala.
+                        Data mencerminkan efektivitas pembelajaran dan kualitas bimbingan yang terstruktur.
                     </div>
                 </div>
             </div>
@@ -272,34 +297,36 @@
 
     </div>
 
-    <!-- GRAPHICS JAVASCRIPT LOGIC -->
+    <!-- ===== FOOTER ===== -->
+    <footer class="max-w-7xl mx-auto mt-8 text-center text-[10px] text-slate-400 border-t border-slate-200 pt-6">
+        <p>© 2026 — Program Studi Psikologi Islam · IAIN SAS Bangka Belitung</p>
+        <p class="mt-1">Data bersumber dari SIAKAD dan Borang Akreditasi</p>
+    </footer>
+
+    <!-- ===== SCRIPTS CHART ===== -->
     <script>
-        // 1. Chart: Stacked Bar Chart for Student Trends
+        // 1. Stacked Bar Chart
         const trendCtx = document.getElementById('studentTrendsChart').getContext('2d');
         new Chart(trendCtx, {
             type: 'bar',
             data: {
                 labels: ['2019/2020', '2020/2021', '2021/2022', '2022/2023', '2023/2024', '2024/2025'],
-                datasets: [
-                    {
-                        label: 'Lulusan',
-                        data: [34, 41, 47, 2, 0, 0],
-                        backgroundColor: '#047857', // Emerald 700
-                        borderRadius: 6
-                    },
-                    {
-                        label: 'Mahasiswa Aktif',
-                        data: [9, 10, 41, 91, 75, 39],
-                        backgroundColor: '#1d4ed8', // Blue 700
-                        borderRadius: 6
-                    },
-                    {
-                        label: 'Tidak Terdata / Pindah',
-                        data: [7, 7, 0, 0, 13, 0],
-                        backgroundColor: '#d97706', // Amber 600
-                        borderRadius: 6
-                    }
-                ]
+                datasets: [{
+                    label: 'Lulusan',
+                    data: [34, 41, 47, 2, 0, 0],
+                    backgroundColor: '#047857',
+                    borderRadius: 6
+                }, {
+                    label: 'Mahasiswa Aktif',
+                    data: [9, 10, 41, 91, 75, 39],
+                    backgroundColor: '#1d4ed8',
+                    borderRadius: 6
+                }, {
+                    label: 'Tidak Terdata / Pindah',
+                    data: [7, 7, 0, 0, 13, 0],
+                    backgroundColor: '#d97706',
+                    borderRadius: 6
+                }]
             },
             options: {
                 responsive: true,
@@ -317,7 +344,7 @@
             }
         });
 
-        // 2. Chart: Pie Chart for Cumulative Composition
+        // 2. Doughnut Chart
         const compCtx = document.getElementById('studentCompositionChart').getContext('2d');
         new Chart(compCtx, {
             type: 'doughnut',
@@ -343,5 +370,6 @@
             }
         });
     </script>
+
 </body>
 </html>
