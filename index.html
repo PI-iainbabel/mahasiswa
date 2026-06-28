@@ -3,15 +3,23 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard Mahasiswa — Psikologi Islam</title>
+    <title>Mahasiswa — Psikologi Islam</title>
 
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
     <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js">
+    </script>
 
     <script>
         tailwind.config = {
@@ -20,6 +28,15 @@
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                         heading: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        navy: {
+                            50: '#E8EDF8', 100: '#C5D2F0', 200: '#9DB5E8',
+                            300: '#6F95E0', 400: '#4F7FD8', 500: '#2A5CC4',
+                            600: '#1A3F8F', 700: '#122B6A', 800: '#0B1D45',
+                            900: '#060F28', 950: '#030714',
+                        },
+                        gold: '#D4AF37',
                     }
                 }
             }
@@ -27,256 +44,365 @@
     </script>
 
     <style>
-        /* Tombol Prestasi dengan efek glow */
-        .btn-prestasi {
-            background: linear-gradient(135deg, #c9a84c, #e8d48b);
-            color: #0f1b33;
-            font-weight: 700;
-            padding: 14px 32px;
-            border-radius: 60px;
-            box-shadow: 0 8px 30px rgba(201, 168, 76, 0.35), 0 0 60px rgba(201, 168, 76, 0.08);
+        body {
+            background-color: #060F28;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+        }
+        .glass-nav {
+            background: rgba(11, 29, 69, 0.7);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(79, 143, 255, 0.15);
+        }
+        .btn-nav {
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 6px 14px;
+            border-radius: 20px;
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
-            gap: 12px;
-            font-size: 1rem;
-            border: none;
-            cursor: pointer;
-            text-decoration: none;
+            gap: 6px;
         }
-        .btn-prestasi:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 14px 40px rgba(201, 168, 76, 0.45), 0 0 80px rgba(201, 168, 76, 0.12);
-        }
-        .btn-prestasi i {
-            font-size: 1.2rem;
-        }
-
-        /* Tombol Kembali ke Home */
-        .btn-home {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(8px);
-            border: 1.5px solid rgba(255, 255, 255, 0.15);
+        .btn-nav:hover {
             color: #fff;
-            padding: 10px 24px;
+            background: rgba(255, 255, 255, 0.08);
+        }
+        .btn-back-home {
+            background: #0f1b33;
+            color: #fff;
+            padding: 8px 20px;
             border-radius: 40px;
             font-weight: 600;
-            font-size: 0.85rem;
-            transition: all 0.3s ease;
+            font-size: 0.8rem;
             text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 16px rgba(15, 27, 51, 0.15);
+            transition: all 0.3s ease;
+        }
+        .btn-back-home:hover {
+            background: #1a2b4a;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(15, 27, 51, 0.25);
+        }
+        .btn-prestasi {
+            background: linear-gradient(135deg, #D4AF37, #e8c84a);
+            color: #060F28;
+            font-weight: 700;
+            padding: 10px 24px;
+            border-radius: 40px;
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.25);
+            transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
             gap: 10px;
+            font-size: 0.85rem;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
         }
-        .btn-home:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
+        .btn-prestasi:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 14px 40px rgba(212, 175, 55, 0.4);
+        }
+        .btn-prestasi i {
+            font-size: 1rem;
+        }
+        .card-glass {
+            background: rgba(11, 29, 69, 0.4);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+        .card-glass:hover {
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+        .stat-card {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .stat-card:hover {
+            transform: translateY(-6px) scale(1.02);
+        }
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .table-wrap table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.75rem;
+        }
+        .table-wrap thead {
+            background: rgba(11, 29, 69, 0.6);
+            border-bottom: 2px solid rgba(212, 175, 55, 0.2);
+        }
+        .table-wrap thead th {
+            padding: 10px 10px;
+            text-align: left;
+            font-weight: 700;
+            color: #D4AF37;
+            text-transform: uppercase;
+            font-size: 0.6rem;
+            letter-spacing: 0.04em;
+            white-space: nowrap;
+        }
+        .table-wrap tbody tr {
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            transition: all 0.2s ease;
+        }
+        .table-wrap tbody tr:hover {
+            background: rgba(212, 175, 55, 0.05);
+        }
+        .table-wrap tbody td {
+            padding: 8px 10px;
+            color: #cbd5e1;
+            vertical-align: middle;
+        }
+        .table-wrap tbody td:first-child {
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+        .table-wrap tfoot tr {
+            background: rgba(11, 29, 69, 0.5);
+            border-top: 2px solid rgba(212, 175, 55, 0.3);
+        }
+        .table-wrap tfoot td {
+            padding: 10px 10px;
+            color: #D4AF37;
+            font-weight: 700;
+        }
+        @media (max-width: 768px) {
+            .table-wrap table { font-size: 0.65rem; }
+            .table-wrap thead th, .table-wrap tbody td { padding: 4px 6px; }
+        }
+        @media print {
+            .no-print { display: none !important; }
+            body { background: #fff; color: #000; }
+            .card-glass { background: #f1f5f9; border-color: #cbd5e1; }
+            .table-wrap thead { background: #e2e8f0; }
+            .table-wrap thead th { color: #1e293b; }
+            .table-wrap tbody td { color: #1e293b; }
         }
     </style>
 </head>
-<body class="bg-slate-50 font-sans text-slate-800 antialiased p-4 md:p-8">
+<body>
 
-    <!-- ===== HEADER DENGAN TOMBOL HOME & PRESTASI ===== -->
-    <div class="max-w-7xl mx-auto mb-6">
-        <div class="bg-gradient-to-r from-navy-900 to-navy-950 rounded-2xl p-5 md:p-6 flex flex-wrap items-center justify-between gap-4 border border-navy-700/40 shadow-xl">
-            <!-- Kiri: Logo & Judul -->
-            <div class="flex items-center gap-4">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-gold to-amber-600 flex items-center justify-center text-navy-900 font-bold text-lg shadow-lg shadow-gold/20">
-                    Ψ
+    <!-- ===== NAVBAR ===== -->
+    <nav class="glass-nav fixed top-0 left-0 right-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <span class="text-gold font-heading font-bold text-lg">Psychosophia</span>
+                    <span class="text-white/30">|</span>
+                    <span class="text-sm text-white/60 hidden sm:inline">Mahasiswa</span>
                 </div>
-                <div>
-                    <h1 class="text-white font-bold font-heading text-lg md:text-xl">Mahasiswa</h1>
-                    <p class="text-[10px] text-white/40 font-medium">Program Studi Psikologi Islam</p>
+                <div class="flex items-center gap-2">
+                    <!-- Tombol Prestasi (menonjol) -->
+                    <a href="https://pi-iainbabel.github.io/mahasiswa/prestasi-mahasiswa.html" class="btn-prestasi">
+                        <i class="fas fa-trophy"></i> Lihat Prestasi
+                    </a>
+                    <!-- Tombol Kembali ke Home -->
+                    <a href="https://pi-iainbabel.github.io/psychosophia-hub/" class="btn-back-home">
+                        <i class="fas fa-arrow-left"></i> <span class="hidden sm:inline">Kembali ke Home</span>
+                    </a>
                 </div>
             </div>
+        </div>
+    </nav>
 
-            <!-- Kanan: Tombol Prestasi (SALIENCE) + Home -->
-            <div class="flex flex-wrap items-center gap-3">
-               <a href="https://pi-iainbabel.github.io/psychosophia-hub/" 
-   class="btn btn-sm" style="background:#0f1b33; color:#fff; border:1px solid #c9a84c; border-radius:20px; padding:6px 16px; font-size:0.8rem;">
-    <i class="fas fa-home"></i> Kembali ke Hub
-</a>
-                <!-- TOMBOL PRESTASI — BESAR & MENCUAT -->
-                <a href="prestasi-mahasiswa.html" class="btn-prestasi">
-                    <i class="fas fa-trophy"></i> Lihat Prestasi Mahasiswa
-                    <i class="fas fa-arrow-right text-xs opacity-70"></i>
-                </a>
-
-                <!-- TOMBOL KEMBALI KE HOME -->
-                <a href="https://pi-iainbabel.github.io/psychosophia-hub/" class="btn-home">
-                    <i class="fas fa-home"></i> Kembali
-                </a>
+    <!-- ===== HERO ===== -->
+    <section class="pt-24 pb-8 px-4 text-center bg-gradient-to-b from-navy-900 to-navy-950 border-b border-white/5">
+        <div class="max-w-4xl mx-auto">
+            <div class="inline-block px-4 py-1 rounded-full bg-gold/10 border border-gold/20 text-gold text-xs font-semibold tracking-wider mb-4">
+                <i class="fas fa-users mr-2"></i> DATA MAHASISWA
+            </div>
+            <h1 class="font-heading font-extrabold text-3xl sm:text-4xl text-white leading-tight">
+                Profil Mahasiswa <span class="text-gold">Psikologi Islam</span>
+            </h1>
+            <p class="mt-3 text-slate-400 max-w-2xl mx-auto text-sm">
+                Program Studi Psikologi Islam · FDKI · IAIN Syaikh Abdurrahman Siddik Bangka Belitung
+            </p>
+            <div class="mt-4 flex flex-wrap justify-center gap-3 text-xs">
+                <span class="px-4 py-1.5 rounded-full bg-navy-800/60 border border-white/5 text-slate-300">
+                    <i class="fas fa-calendar-alt text-gold mr-1.5"></i> TS 2024/2025
+                </span>
+                <span class="px-4 py-1.5 rounded-full bg-navy-800/60 border border-white/5 text-slate-300">
+                    <i class="fas fa-users text-gold mr-1.5"></i> 416 Total Diterima
+                </span>
+                <span class="px-4 py-1.5 rounded-full bg-navy-800/60 border border-white/5 text-slate-300">
+                    <i class="fas fa-graduation-cap text-gold mr-1.5"></i> 124 Lulusan
+                </span>
             </div>
         </div>
+    </section>
 
-        <!-- Sub-header kecil -->
-        <div class="mt-3 flex flex-wrap justify-between items-center gap-2 text-xs text-slate-500">
-            <span class="bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm">
-                📅 Pembaruan Data: <span class="font-semibold text-slate-700">TS (2024/2025)</span>
-            </span>
-            <span class="bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm text-emerald-700 font-medium">
-                <i class="fas fa-users mr-1"></i> Total 416 Mahasiswa · 124 Lulusan
-            </span>
+    <!-- ===== STATISTIK ===== -->
+    <section class="py-6 px-4 bg-navy-900/50 border-b border-white/5">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <div class="stat-card bg-navy-800/30 rounded-xl p-4 text-center border border-white/5">
+                    <div class="text-2xl font-bold text-gold">416</div>
+                    <div class="text-xs text-slate-400">Total Diterima</div>
+                </div>
+                <div class="stat-card bg-navy-800/30 rounded-xl p-4 text-center border border-white/5">
+                    <div class="text-2xl font-bold text-emerald-400">124</div>
+                    <div class="text-xs text-slate-400">Total Lulusan</div>
+                </div>
+                <div class="stat-card bg-navy-800/30 rounded-xl p-4 text-center border border-white/5">
+                    <div class="text-2xl font-bold text-sky-400">265</div>
+                    <div class="text-xs text-slate-400">Mahasiswa Aktif</div>
+                </div>
+                <div class="stat-card bg-navy-800/30 rounded-xl p-4 text-center border border-white/5">
+                    <div class="text-2xl font-bold text-amber-400">27</div>
+                    <div class="text-xs text-slate-400">Tidak Terdata</div>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 
     <!-- ===== MAIN CONTENT ===== -->
-    <div class="max-w-7xl mx-auto space-y-8">
+    <section class="px-4 py-8 max-w-7xl mx-auto space-y-8">
 
-        <!-- METRIC CARDS -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-                <span class="text-xs text-slate-400 font-medium uppercase tracking-wider block">Total Diterima</span>
-                <span class="text-2xl md:text-3xl font-bold font-heading text-slate-800 block mt-1">416</span>
-                <span class="text-xs text-slate-500 mt-1 block">Dari 6 Angkatan Terakhir</span>
-            </div>
-            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-                <span class="text-xs text-emerald-600 font-medium uppercase tracking-wider block">Total Lulusan</span>
-                <span class="text-2xl md:text-3xl font-bold font-heading text-emerald-700 block mt-1">124</span>
-                <span class="text-xs text-emerald-600 font-medium mt-1 inline-flex items-center gap-0.5 bg-emerald-50 px-1.5 py-0.5 rounded">
-                    🎓 29.8% Kelulusan Kumulatif
-                </span>
-            </div>
-            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-                <span class="text-xs text-blue-600 font-medium uppercase tracking-wider block">Mahasiswa Aktif</span>
-                <span class="text-2xl md:text-3xl font-bold font-heading text-blue-700 block mt-1">265</span>
-                <span class="text-xs text-blue-600 font-medium mt-1 inline-flex items-center gap-0.5 bg-blue-50 px-1.5 py-0.5 rounded">
-                    ⚡ 63.7% Masa Studi
-                </span>
-            </div>
-            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-                <span class="text-xs text-amber-700 font-medium uppercase tracking-wider block">Tidak Terdata / Keluar</span>
-                <span class="text-2xl md:text-3xl font-bold font-heading text-amber-800 block mt-1">27</span>
-                <span class="text-xs text-amber-700 font-medium mt-1 inline-flex items-center gap-0.5 bg-amber-50 px-1.5 py-0.5 rounded">
-                    ⚠️ 6.5% Pindah
-                </span>
-            </div>
-        </div>
-
-        <!-- CHARTS -->
+        <!-- GRAFIK -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 lg:col-span-2 flex flex-col justify-between">
-                <div>
-                    <h3 class="text-base font-bold font-heading text-slate-800">Tren Status Mahasiswa per Tahun Masuk</h3>
-                    <p class="text-xs text-slate-400 mt-0.5">Komparasi jumlah mahasiswa diterima, lulus, dan status aktif.</p>
+
+            <!-- Stacked Bar Chart -->
+            <div class="card-glass p-6 lg:col-span-2">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                    <div>
+                        <h3 class="font-heading font-bold text-white text-sm">Tren Status Mahasiswa per Tahun Masuk</h3>
+                        <p class="text-xs text-slate-400 mt-0.5">Komparasi jumlah diterima, lulus, dan aktif.</p>
+                    </div>
+                    <span class="text-[10px] font-bold text-gold bg-gold/10 px-3 py-1 rounded-full border border-gold/20">Data SIAKAD</span>
                 </div>
-                <div class="mt-4 h-64 md:h-72 relative">
+                <div class="h-64 md:h-72 relative">
                     <canvas id="studentTrendsChart"></canvas>
                 </div>
             </div>
 
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between">
+            <!-- Donut Chart -->
+            <div class="card-glass p-6 flex flex-col justify-between">
                 <div>
-                    <h3 class="text-base font-bold font-heading text-slate-800">Komposisi Makro Mahasiswa</h3>
-                    <p class="text-xs text-slate-400 mt-0.5">Distribusi persentase dari total 416 mahasiswa.</p>
+                    <h3 class="font-heading font-bold text-white text-sm">Komposisi Makro Mahasiswa</h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Distribusi dari total 416 mahasiswa.</p>
                 </div>
-                <div class="mt-4 h-56 md:h-60 relative flex justify-center items-center">
+                <div class="h-56 md:h-60 relative flex justify-center items-center mt-2">
                     <canvas id="studentCompositionChart"></canvas>
                 </div>
             </div>
         </div>
 
-        <!-- TABLE -->
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-            <div class="mb-4">
-                <h3 class="text-base font-bold font-heading text-slate-800">Tabel Rincian Angkatan</h3>
-                <p class="text-xs text-slate-400 mt-0.5">Data terstruktur komparatif berbasis borang akreditasi.</p>
+        <!-- TABEL RINCIAN ANGKATAN -->
+        <div class="card-glass p-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                <div>
+                    <h3 class="font-heading font-bold text-white text-sm">Tabel Rincian Angkatan</h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Data terstruktur komparatif berbasis borang akreditasi.</p>
+                </div>
+                <span class="text-xs text-slate-400"><i class="fas fa-info-circle mr-1"></i> Klik kolom untuk detail</span>
             </div>
 
-            <div class="overflow-x-auto border border-slate-100 rounded-xl">
-                <table class="w-full text-left border-collapse text-xs md:text-sm">
+            <div class="table-wrap">
+                <table>
                     <thead>
-                        <tr class="bg-slate-50 text-slate-600 font-heading font-semibold border-b border-slate-200">
-                            <th class="p-3">Tahun Masuk</th>
-                            <th class="p-3 text-center">Jumlah Diterima</th>
-                            <th class="p-3 text-center text-emerald-800 bg-emerald-50/40">Jumlah Lulusan</th>
-                            <th class="p-3 text-center text-blue-800 bg-blue-50/30">Jumlah Aktif</th>
-                            <th class="p-3 text-center text-amber-800">Tidak Terdata / Pindah</th>
-                            <th class="p-3 text-center font-bold text-slate-800 bg-slate-100/50">% Lulusan</th>
-                            <th class="p-3">Keterangan</th>
+                        <tr>
+                            <th>Tahun Masuk</th>
+                            <th class="text-center">Diterima</th>
+                            <th class="text-center text-emerald-400">Lulusan</th>
+                            <th class="text-center text-sky-400">Aktif</th>
+                            <th class="text-center text-amber-400">Tidak Terdata</th>
+                            <th class="text-center text-gold">% Lulusan</th>
+                            <th>Keterangan</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-100 text-slate-700">
-                        <tr class="hover:bg-slate-50/50 transition-colors">
-                            <td class="p-3 font-semibold text-slate-800">2019/2020</td>
-                            <td class="p-3 text-center font-medium">50</td>
-                            <td class="p-3 text-center bg-emerald-50/20 font-semibold text-emerald-700">34</td>
-                            <td class="p-3 text-center bg-blue-50/10 text-blue-600">9</td>
-                            <td class="p-3 text-center text-slate-400">7</td>
-                            <td class="p-3 text-center bg-slate-100/30 font-bold text-emerald-800">68.0%</td>
-                            <td class="p-3 text-xs text-slate-500 italic">Angkatan pertama</td>
+                    <tbody>
+                        <tr>
+                            <td class="font-semibold text-white">2019/2020</td>
+                            <td class="text-center">50</td>
+                            <td class="text-center text-emerald-400 font-semibold">34</td>
+                            <td class="text-center text-sky-400">9</td>
+                            <td class="text-center text-slate-500">7</td>
+                            <td class="text-center text-gold font-bold">68.0%</td>
+                            <td class="text-xs text-slate-400 italic">Angkatan pertama</td>
                         </tr>
-                        <tr class="hover:bg-slate-50/50 transition-colors">
-                            <td class="p-3 font-semibold text-slate-800">2020/2021</td>
-                            <td class="p-3 text-center font-medium">58</td>
-                            <td class="p-3 text-center bg-emerald-50/20 font-semibold text-emerald-700">41</td>
-                            <td class="p-3 text-center bg-blue-50/10 text-blue-600">10</td>
-                            <td class="p-3 text-center text-slate-400">7</td>
-                            <td class="p-3 text-center bg-slate-100/30 font-bold text-emerald-800">70.7%</td>
-                            <td class="p-3 text-xs text-emerald-700 font-medium">Peningkatan lulusan 📈</td>
+                        <tr>
+                            <td class="font-semibold text-white">2020/2021</td>
+                            <td class="text-center">58</td>
+                            <td class="text-center text-emerald-400 font-semibold">41</td>
+                            <td class="text-center text-sky-400">10</td>
+                            <td class="text-center text-slate-500">7</td>
+                            <td class="text-center text-gold font-bold">70.7%</td>
+                            <td class="text-xs text-emerald-400/70 font-medium">📈 Peningkatan lulusan</td>
                         </tr>
-                        <tr class="hover:bg-slate-50/50 transition-colors">
-                            <td class="p-3 font-semibold text-slate-800">2021/2022</td>
-                            <td class="p-3 text-center font-medium">88</td>
-                            <td class="p-3 text-center bg-emerald-50/20 font-semibold text-emerald-700">47</td>
-                            <td class="p-3 text-center bg-blue-50/10 text-blue-600">41</td>
-                            <td class="p-3 text-center text-slate-400">0</td>
-                            <td class="p-3 text-center bg-slate-100/30 font-bold text-slate-700">53.4%</td>
-                            <td class="p-3 text-xs text-slate-500 italic">Masih banyak aktif</td>
+                        <tr>
+                            <td class="font-semibold text-white">2021/2022</td>
+                            <td class="text-center">88</td>
+                            <td class="text-center text-emerald-400 font-semibold">47</td>
+                            <td class="text-center text-sky-400">41</td>
+                            <td class="text-center text-slate-500">0</td>
+                            <td class="text-center text-gold font-bold">53.4%</td>
+                            <td class="text-xs text-slate-400 italic">Masih banyak aktif</td>
                         </tr>
-                        <tr class="hover:bg-slate-50/50 transition-colors">
-                            <td class="p-3 font-semibold text-slate-800">2022/2023</td>
-                            <td class="p-3 text-center font-medium">93</td>
-                            <td class="p-3 text-center bg-emerald-50/20 text-emerald-700">2</td>
-                            <td class="p-3 text-center bg-blue-50/10 text-blue-600 font-semibold">91</td>
-                            <td class="p-3 text-center text-slate-400">0</td>
-                            <td class="p-3 text-center bg-slate-100/30 font-bold text-slate-400">2.1%</td>
-                            <td class="p-3 text-xs text-blue-600 font-medium bg-blue-50/30">Masih dalam masa studi</td>
+                        <tr>
+                            <td class="font-semibold text-white">2022/2023</td>
+                            <td class="text-center">93</td>
+                            <td class="text-center text-emerald-400 font-semibold">2</td>
+                            <td class="text-center text-sky-400 font-semibold">91</td>
+                            <td class="text-center text-slate-500">0</td>
+                            <td class="text-center text-slate-500">2.1%</td>
+                            <td class="text-xs text-sky-400/70 font-medium">Masih dalam masa studi</td>
                         </tr>
-                        <tr class="hover:bg-slate-50/50 transition-colors">
-                            <td class="p-3 font-semibold text-slate-800">2023/2024</td>
-                            <td class="p-3 text-center font-medium">88</td>
-                            <td class="p-3 text-center bg-emerald-50/20 text-slate-300">0</td>
-                            <td class="p-3 text-center bg-blue-50/10 text-blue-600 font-semibold">75</td>
-                            <td class="p-3 text-center text-amber-600 font-medium">13</td>
-                            <td class="p-3 text-center bg-slate-100/30 font-bold text-slate-400">0%</td>
-                            <td class="p-3 text-xs text-blue-600 font-medium bg-blue-50/30">Masih dalam masa studi</td>
+                        <tr>
+                            <td class="font-semibold text-white">2023/2024</td>
+                            <td class="text-center">88</td>
+                            <td class="text-center text-slate-500">0</td>
+                            <td class="text-center text-sky-400 font-semibold">75</td>
+                            <td class="text-center text-amber-400 font-medium">13</td>
+                            <td class="text-center text-slate-500">0%</td>
+                            <td class="text-xs text-sky-400/70 font-medium">Masih dalam masa studi</td>
                         </tr>
-                        <tr class="hover:bg-slate-50/50 transition-colors">
-                            <td class="p-3 font-semibold text-slate-800">2024/2025</td>
-                            <td class="p-3 text-center font-medium">39</td>
-                            <td class="p-3 text-center bg-emerald-50/20 text-slate-300">0</td>
-                            <td class="p-3 text-center bg-blue-50/10 text-blue-600 font-semibold">39</td>
-                            <td class="p-3 text-center text-slate-400">0</td>
-                            <td class="p-3 text-center bg-slate-100/30 font-bold text-slate-400">0%</td>
-                            <td class="p-3 text-xs text-purple-700 font-medium bg-purple-50">Angkatan terbaru ✨</td>
-                        </tr>
-                        <tr class="bg-slate-100/80 font-bold text-slate-900 border-t-2 border-slate-300">
-                            <td class="p-3">Total / Rata-rata</td>
-                            <td class="p-3 text-center">416</td>
-                            <td class="p-3 text-center text-emerald-800 bg-emerald-100/50">124</td>
-                            <td class="p-3 text-center text-blue-800 bg-blue-100/40">265</td>
-                            <td class="p-3 text-center text-amber-900">27</td>
-                            <td class="p-3 text-center bg-slate-200 text-emerald-950 font-extrabold">29.8%</td>
-                            <td class="p-3 text-xs text-slate-500 font-normal">Rekap Akumulatif</td>
+                        <tr>
+                            <td class="font-semibold text-white">2024/2025</td>
+                            <td class="text-center">39</td>
+                            <td class="text-center text-slate-500">0</td>
+                            <td class="text-center text-sky-400 font-semibold">39</td>
+                            <td class="text-center text-slate-500">0</td>
+                            <td class="text-center text-slate-500">0%</td>
+                            <td class="text-xs text-purple-400/70 font-medium">✨ Angkatan terbaru</td>
                         </tr>
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="font-bold text-gold">Total / Rata-rata</td>
+                            <td class="text-center font-bold text-gold">416</td>
+                            <td class="text-center font-bold text-emerald-400">124</td>
+                            <td class="text-center font-bold text-sky-400">265</td>
+                            <td class="text-center font-bold text-amber-400">27</td>
+                            <td class="text-center font-bold text-gold">29.8%</td>
+                            <td class="text-xs text-slate-400 font-normal">Rekap Akumulatif</td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
 
-        <!-- NARASI -->
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 md:p-8 space-y-6">
-            <div class="border-b border-slate-100 pb-3">
-                <h2 class="text-lg font-bold font-heading text-emerald-900 flex items-center gap-2">
-                    <span>📝</span> Narasi Analisis & Rekomendasi
+        <!-- NARASI ANALISIS -->
+        <div class="card-glass p-6 border-gold/10">
+            <div class="border-b border-white/10 pb-3 mb-4">
+                <h2 class="font-heading font-bold text-lg text-white flex items-center gap-2">
+                    <span class="text-gold">📝</span> Narasi Analisis &amp; Rekomendasi
                 </h2>
-                <p class="text-xs text-slate-400 mt-0.5">Analisis Naratif</p>
+                <p class="text-xs text-slate-400 mt-0.5">Analisis Naratif berbasis data mahasiswa</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm leading-relaxed text-slate-600">
-                <div class="md:col-span-2 space-y-4 border-r border-slate-100 pr-0 md:pr-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm leading-relaxed">
+                <div class="md:col-span-2 space-y-3 text-slate-300">
                     <p class="text-justify">
                         Berdasarkan rekapitulasi data mahasiswa dari SIAKAD dan data penerimaan mahasiswa baru, prodi Psikologi Islam mencatat jumlah mahasiswa masuk per angkatan secara dinamis. Angkatan 2019/2020 berjumlah 50 mahasiswa, dengan 34 lulusan (68%) dan 9 mahasiswa aktif. Angkatan 2020/2021 berjumlah 58 mahasiswa, dengan 41 lulusan (70,7%) dan 10 mahasiswa aktif. Angkatan 2021/2022 berjumlah 88 mahasiswa, dengan 47 lulusan (53,4%) dan 41 mahasiswa aktif. Angkatan 2022/2023 berjumlah 93 mahasiswa, dengan 2 lulusan dan 91 mahasiswa aktif. Angkatan 2023/2024 berjumlah 88 mahasiswa, dengan 75 mahasiswa aktif dan belum ada lulusan. Angkatan 2024/2025 berjumlah 39 mahasiswa, seluruhnya aktif dan belum ada lulusan.
                     </p>
@@ -285,31 +411,33 @@
                     </p>
                 </div>
 
-                <div class="bg-amber-50/60 p-5 rounded-2xl border border-amber-100/70 h-full flex flex-col justify-between">
+                <div class="bg-gold/5 p-5 rounded-xl border border-gold/20 h-full flex flex-col justify-between">
                     <div>
-                        <h4 class="font-bold text-amber-900 font-heading text-xs uppercase tracking-wider mb-2">📌 Catatan Evaluasi</h4>
-                        <p class="text-xs text-amber-900 text-justify">
+                        <h4 class="font-bold text-gold font-heading text-xs uppercase tracking-wider mb-2">📌 Catatan Evaluasi</h4>
+                        <p class="text-xs text-slate-300 text-justify">
                             Rata-rata IPK mahasiswa angkatan 2024/2025 berkisar antara 3,21 – 4,00, menunjukkan performa akademik yang sangat baik. Sebagian kecil mahasiswa memiliki pemenuhan SKS yang lebih rendah dari standar ideal, sehingga program studi menginisiasi monitoring intensif serta pendampingan dosen PA.
                         </p>
                     </div>
-                    <div class="mt-4 pt-4 border-t border-amber-200/50 text-[11px] text-amber-800 italic">
+                    <div class="mt-4 pt-4 border-t border-gold/20 text-[11px] text-slate-400 italic">
                         Data mencerminkan efektivitas pembelajaran dan kualitas bimbingan yang terstruktur.
                     </div>
                 </div>
             </div>
         </div>
 
-    </div>
+    </section>
 
     <!-- ===== FOOTER ===== -->
-    <footer class="max-w-7xl mx-auto mt-8 text-center text-[10px] text-slate-400 border-t border-slate-200 pt-6">
-        <p>© 2026 — Program Studi Psikologi Islam · IAIN SAS Bangka Belitung</p>
-        <p class="mt-1">Data bersumber dari SIAKAD dan Borang Akreditasi</p>
+    <footer class="border-t border-white/5 py-4 px-4 text-center text-xs text-slate-500">
+        <p>© 2024–2028 Program Studi Psikologi Islam · FDKI · IAIN Syaikh Abdurrahman Siddik Bangka Belitung</p>
+        <p class="mt-1 text-[10px] text-slate-600">Data bersumber dari SIAKAD dan Borang Akreditasi</p>
     </footer>
 
-    <!-- ===== SCRIPTS CHART ===== -->
+    <!-- ============================================================ -->
+    <!-- JAVASCRIPT (Chart.js) -->
+    <!-- ============================================================ -->
     <script>
-        // 1. Stacked Bar Chart
+        // ===== 1. STACKED BAR CHART =====
         const trendCtx = document.getElementById('studentTrendsChart').getContext('2d');
         new Chart(trendCtx, {
             type: 'bar',
@@ -318,37 +446,49 @@
                 datasets: [{
                     label: 'Lulusan',
                     data: [34, 41, 47, 2, 0, 0],
-                    backgroundColor: '#047857',
-                    borderRadius: 6
+                    backgroundColor: '#10b981',
+                    borderRadius: 4,
                 }, {
                     label: 'Mahasiswa Aktif',
                     data: [9, 10, 41, 91, 75, 39],
-                    backgroundColor: '#1d4ed8',
-                    borderRadius: 6
+                    backgroundColor: '#3b82f6',
+                    borderRadius: 4,
                 }, {
                     label: 'Tidak Terdata / Pindah',
                     data: [7, 7, 0, 0, 13, 0],
-                    backgroundColor: '#d97706',
-                    borderRadius: 6
+                    backgroundColor: '#f59e0b',
+                    borderRadius: 4,
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                scales: {
-                    x: { stacked: true, grid: { display: false } },
-                    y: { stacked: true, grid: { color: '#f1f5f9' } }
-                },
                 plugins: {
                     legend: {
                         position: 'bottom',
-                        labels: { boxWidth: 12, font: { family: 'Inter', size: 11 } }
+                        labels: {
+                            color: '#94a3b8',
+                            boxWidth: 12,
+                            font: { family: 'Inter', size: 10, weight: 500 }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        stacked: true,
+                        grid: { color: 'rgba(255,255,255,0.04)', drawBorder: false },
+                        ticks: { color: '#94a3b8', font: { family: 'Inter', size: 10 } }
+                    },
+                    y: {
+                        stacked: true,
+                        grid: { color: 'rgba(255,255,255,0.04)', drawBorder: false },
+                        ticks: { color: '#94a3b8', font: { family: 'Inter' } }
                     }
                 }
             }
         });
 
-        // 2. Doughnut Chart
+        // ===== 2. DOUGHNUT CHART =====
         const compCtx = document.getElementById('studentCompositionChart').getContext('2d');
         new Chart(compCtx, {
             type: 'doughnut',
@@ -356,9 +496,9 @@
                 labels: ['Lulusan (29.8%)', 'Aktif (63.7%)', 'Tidak Terdata (6.5%)'],
                 datasets: [{
                     data: [124, 265, 27],
-                    backgroundColor: ['#047857', '#1d4ed8', '#d97706'],
-                    borderWidth: 2,
-                    borderColor: '#ffffff'
+                    backgroundColor: ['#D4AF37', '#3b82f6', '#f59e0b'],
+                    borderWidth: 3,
+                    borderColor: '#060F28'
                 }]
             },
             options: {
@@ -367,7 +507,11 @@
                 plugins: {
                     legend: {
                         position: 'bottom',
-                        labels: { boxWidth: 10, font: { family: 'Inter', size: 11 } }
+                        labels: {
+                            color: '#94a3b8',
+                            boxWidth: 12,
+                            font: { family: 'Inter', size: 10 }
+                        }
                     }
                 },
                 cutout: '65%'
